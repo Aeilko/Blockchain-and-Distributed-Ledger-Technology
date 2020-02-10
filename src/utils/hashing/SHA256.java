@@ -27,4 +27,32 @@ public class SHA256 {
 
 		return result;
 	}
+
+	public static String leadingZeros(String base, int zeros){
+		return leadingZeros(base, zeros, false);
+	}
+
+	public static String leadingZeros(String base, int zeros, boolean displayProgress){
+		String z = "";
+		for(int i = 0; i < zeros; i++)
+			z += "0";
+
+		int i = 0;
+		String nonce = "";
+		while(true){
+			nonce = Integer.toString(i);
+
+			String h = SHA256.hash(base + nonce);
+			String lead = h.substring(0, zeros);
+
+			if(lead.equals(z))
+				break;
+
+			if(i%10000 == 0)
+				System.out.println("Run\t\t" + i);
+			i++;
+		}
+
+		return nonce;
+	}
 }

@@ -2,12 +2,12 @@ package ctf.pow;
 
 import utils.hashing.SHA256;
 
-public class Assignment1 {
+public class Assignment3 {
 	public static void main(String[] args){
 		String val = "Aeilko";
-		String prev = "00000086bc76ab7f9c765d23d1c57d807f4d44cb83a639d36c59bed64ee7a9e7";
+		String prev = "00000d4e7fb4008e61b498af5cc2db1739b5bcfad8ac5a16214db85f4a161be3";
 
-		String nonce = SHA256.leadingZeros(val + prev, 2, true);
+		String nonce = SHA256.leadingZeros(val + prev, 6, true);
 
 		System.out.println("Val\t\t" + val);
 		System.out.println("Prev\t" + prev);
