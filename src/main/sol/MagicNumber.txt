@@ -1,0 +1,76 @@
+-- Function --
+Save 42 to memory at random location.
+MSTORE saves the value as uint256 = 32 bytes = 0x20
+
+MSTORE		OFFSET VALUE
+RETURN		OFFSET LENGTH
+
+OFFSET		0x40
+VALUE		0x2A
+LENGTH		0x20
+
+
+PUSH1	0x2A
+PUSH1	0x40
+MSTORE
+PUSH1	0x20
+PUSH1	0x40
+RETURN
+
+-- Function call --
+Return the function bytecode by copying it to memory at random location
+Our code is 10 bytes long (as is specified).
+The offset of our function depends on the length of this code.
+
+CODECOPY	DESTOFFSET OFFSET LENGTH
+RETURN		OFFSET LENGTH
+
+LENGTH		0x0A
+OFFSET		0x
+DESTOFFSET	0x00
+
+LENGTH		LENGTH
+OFFSET		DESTOFFSET
+
+PUSH1	0x0A
+PUSH1	0x
+PUSH1	0x00
+CODECOPY
+PUSH1	0x0A
+PUSH1	0x00
+RETURN
+
+-- Opcodes --
+
+PUSH1		0x60
+MSTORE		0x52
+RETURN		0xF3
+CODECOPY	0x39
+
+-- Full Program --
+
+PUSH1	0x0A
+PUSH1	0x0C
+PUSH1	0x00
+CODECOPY
+PUSH1	0x0A
+PUSH1	0x00
+RETURN
+PUSH1	0x2A
+PUSH1	0x40
+MSTORE
+PUSH1	0x20
+PUSH1	0x40
+RETURN
+
+-- Bytecode --
+
+0x600A600C600039 600A6000F3 602A604052 60206040F3
+
+-- Deploy code --
+web3.eth.sendTransaction({
+    from: "0x2f870ab0529caf06513ca8f380dcee0bcb5af995",
+    data: "0x600A600C600039600A6000F3602A60405260206040F3"
+}, function(error, hash){
+    console.log(hash);
+});
